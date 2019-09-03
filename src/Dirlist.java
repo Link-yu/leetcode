@@ -13,18 +13,27 @@ import java.util.regex.Pattern;
  */
 public class Dirlist {
     public static void main(String[] args) {
-        File path = new File("E:/Algorithm/src/test.txt");
+        Dirlist dirlist = new Dirlist();
+        File in = new File("E:/Algorithm/src/file.pdf");
+        File out = new File("E:/Algorithm/src/test.txt");
         try{
-
+            long time = dirlist.transferFile(in, out);
+            System.out.println(time);
+//            InputStream inputStream = new FileInputStream(path);
+//            Reader reader = new FileReader(path);
+//            int data = reader.read();
+//            while(data != -1) {
+//                System.out.println(data);
+//                System.out.println((char) data);
+//                data = reader.read();
+//            }
 //            FileReader fileReader = new FileReader(path);
 //            int data = fileReader.read();
 //            while(data != -1) {
 //                System.out.println((char)data);
 //                data = fileReader.read();
 //            }
-            OutputStream outputStream = new FileOutputStream(path);
-            outputStream.write("hellowoafarld".getBytes());
-            outputStream.close();
+
 
 
 //            String[] list;
@@ -42,6 +51,22 @@ public class Dirlist {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public long transferFile(File in, File out) throws IOException{
+        long start = System.currentTimeMillis();
+
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(in));
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(out));
+
+        byte[] bytes = new byte[1024*1024];
+        int len;
+        while ((len = bufferedInputStream.read(bytes)) != -1) {
+            bufferedOutputStream.write(bytes,0,len);
+        }
+
+        long end = System.currentTimeMillis();
+        return end - start;
     }
 }
 
