@@ -1,8 +1,6 @@
 package main;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created on 2017/7/17.
@@ -17,44 +15,28 @@ public class MainTest {
     int[] result = new int[2];
     public static void main(String[] args) {
         MainTest solution = new MainTest();
-        int[] nums = {2, 7, 11, 15};
-        System.out.println(solution.twoSum2(nums,9));
+        int[] nums1 = {1,2,7};
+        int[] nums2 = {3,4};
+        System.out.println(solution.findMedianSortedArrays(nums1, nums2));
     }
 
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode t1 = l1;
-        ListNode t2 = l2;
-        ListNode head = new ListNode(0);
-        ListNode result = head;
-
-        int carry = 0;
-        while (t1 != null || t2 != null) {
-            int temp = carry;
-            carry = 0;
-            if (t1 != null) {
-                temp = temp + t1.val;
-                t1 = t1.next;
-            }
-
-            if (t2 != null) {
-                temp = temp + t2.val;
-                t2 = t2.next;
-            }
-
-            if (temp/10 != 0) {
-                carry = 1;
-                temp = temp/10;
-            }
-
-            result.next = new ListNode(temp);
-            result = result.next;
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int length = nums1.length + nums2.length;
+        int[] nums = new int[length];
+        for (int i = 0; i < nums1.length;i++) {
+            nums[i] = nums1[i];
         }
 
-        if (carry > 0) {
-            result.next = new ListNode(carry);
+        for (int j = 0; j < nums2.length;j++) {
+            nums[nums1.length+j] = nums2[j];
         }
-        return head.next;
 
+        Arrays.sort(nums);
+        if (length%2 == 0) {
+            return (double)(nums[length/2-1] + nums[length/2])/2;
+        } else {
+            return  (double)nums[length/2];
+        }
     }
 
 }
