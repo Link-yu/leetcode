@@ -17,31 +17,51 @@ public class MainTest {
         MainTest solution = new MainTest();
         int[] nums1 = {1,2,7};
         int[] nums2 = {3,4};
-        System.out.println(solution.longestPalindrome(""));
+        boolean[][] b = new boolean[2][2];
+        System.out.println(solution.longestPalindrome("aabbaac"));
     }
 
     public String longestPalindrome(String s) {
+        if (s.equals("") || s == null) {
+            return "";
+        }
+
         if (s.length() == 1) {
             return s;
         }
-        if(s.length()<0 || s.equals(""))
-            return "";
 
-
+        int len = s.length();
         int start = 0;
         int end = 0;
-        String result = "";
-        for (int i = 0; i < s.length();i++) {
-            int len1 = aroundCenter(s, i,i);
-            int len2 = aroundCenter(s, i, i+1);
-
-            int len = Math.max(len1, len2);
-            if (len > end - start) {
-                start = i - (len - 1) / 2;
-                end = i + len / 2;
+        //二维数组f[i][j]表示s.substring(i,j+1) 为 回文子串
+        boolean[][] f = new boolean[len][len];
+        //需要特殊处理长度为1或长度为2的子字符串;单个字符都处理成true,两个的字符则要判断前后是否一致。
+        for (int i = 0; i < len;i++) {
+            f[i][i] = true;
+            if (i < len-1 && s.charAt(i) == s.charAt(i+1)) {
+                f[i][i+1] = true;
+                start = i;
+                end = i+1;
             }
-
         }
+
+        //开始处理长度大于等于3的子串
+        for (int i = 3; i<=len;i++) {
+            for (int left = 0; left < len; left++) {
+                int right = left+i-1;
+                if (right > len-1) {
+                    break;
+                }
+                if ( s.charAt(left) == s.charAt(right) && f[left+1][right-1]) {
+                    f[left][right] = true;
+                    if (right - left > end - start) {
+                        start = left;
+                        end = right;
+                    }
+                }
+            }
+        }
+
 
         return s.substring(start, end+1);
     }
