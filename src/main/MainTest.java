@@ -17,53 +17,42 @@ public class MainTest {
         MainTest solution = new MainTest();
         int[] nums1 = {1,2,7};
         int[] nums2 = {3,4};
-        boolean[][] b = new boolean[2][2];
-        System.out.println(solution.longestPalindrome("aabbaac"));
+        char[][] b = new char[2][3];
+//        if (b[0][0] == '\0') {
+//            System.out.println(b.length);
+//
+//        }
+        System.out.println(solution.convert("PAYPALISHIRING",3));
     }
 
-    public String longestPalindrome(String s) {
-        if (s.equals("") || s == null) {
-            return "";
-        }
-
-        if (s.length() == 1) {
+    public String convert(String s, int numRows) {
+        int len = s.length();
+        String st = "";
+        if(len == 0 || numRows<=1) {
             return s;
         }
+        String[] ans = new String[numRows];
+        int row = 0;
+        int flag = 1;
+        Arrays.fill(ans, "");
+        for(int i = 0; i < s.length(); i++) {
+            ans[row] += s.charAt(i);
+            row += flag;
 
-        int len = s.length();
-        int start = 0;
-        int end = 0;
-        //二维数组f[i][j]表示s.substring(i,j+1) 为 回文子串
-        boolean[][] f = new boolean[len][len];
-        //需要特殊处理长度为1或长度为2的子字符串;单个字符都处理成true,两个的字符则要判断前后是否一致。
-        for (int i = 0; i < len;i++) {
-            f[i][i] = true;
-            if (i < len-1 && s.charAt(i) == s.charAt(i+1)) {
-                f[i][i+1] = true;
-                start = i;
-                end = i+1;
+            if(row >=numRows) {
+                row = numRows -2;
+                flag = -1;
+            }
+
+            if(row < 0){
+                row = 1;
+                flag = 1;
             }
         }
-
-        //开始处理长度大于等于3的子串
-        for (int i = 3; i<=len;i++) {
-            for (int left = 0; left < len; left++) {
-                int right = left+i-1;
-                if (right > len-1) {
-                    break;
-                }
-                if ( s.charAt(left) == s.charAt(right) && f[left+1][right-1]) {
-                    f[left][right] = true;
-                    if (right - left > end - start) {
-                        start = left;
-                        end = right;
-                    }
-                }
-            }
+        for(int i = 0; i<ans.length;i++) {
+            st += ans[i];
         }
-
-
-        return s.substring(start, end+1);
+        return st;
     }
 
     public int aroundCenter(String s, int left, int right) {
