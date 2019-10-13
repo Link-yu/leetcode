@@ -1,6 +1,7 @@
 package main;
 
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created on 2017/7/17.
@@ -22,37 +23,29 @@ public class MainTest {
 //            System.out.println(b.length);
 //
 //        }
-        System.out.println(solution.convert("PAYPALISHIRING",3));
+        System.out.println(solution.reverse(-123));
     }
 
-    public String convert(String s, int numRows) {
-        int len = s.length();
-        String st = "";
-        if(len == 0 || numRows<=1) {
-            return s;
+    public int reverse(int x) {
+        Queue<Integer> stack = new LinkedBlockingQueue<>();
+        boolean flag = true;
+        if (x < 0) {
+            flag = false;
         }
-        String[] ans = new String[numRows];
-        int row = 0;
-        int flag = 1;
-        Arrays.fill(ans, "");
-        for(int i = 0; i < s.length(); i++) {
-            ans[row] += s.charAt(i);
-            row += flag;
 
-            if(row >=numRows) {
-                row = numRows -2;
-                flag = -1;
-            }
-
-            if(row < 0){
-                row = 1;
-                flag = 1;
-            }
+        String s = String.valueOf(x);
+        int len = flag?s.length():s.length()-1;
+        for (int i =0 ;i < len;i++) {
+            Integer t = x%10;
+            x = x / 10;
+            stack.add(t);
         }
-        for(int i = 0; i<ans.length;i++) {
-            st += ans[i];
+        Long temp = 0L;
+        while(!stack.isEmpty()) {
+            temp = temp*10 + stack.poll();
         }
-        return st;
+        int result = temp > Integer.MAX_VALUE || temp < Integer.MIN_VALUE? 0:temp.intValue();
+        return flag? result:result;
     }
 
     public int aroundCenter(String s, int left, int right) {
