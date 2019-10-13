@@ -23,54 +23,50 @@ public class MainTest {
 //            System.out.println(b.length);
 //
 //        }
-        System.out.println(solution.reverse(-123));
+        String s = " afa afa aga ";
+//        System.out.println(s.strip());
+        System.out.println(solution.myAtoi("-"));
     }
 
-    public int reverse(int x) {
-        Queue<Integer> stack = new LinkedBlockingQueue<>();
-        boolean flag = true;
-        if (x < 0) {
-            flag = false;
+    public int myAtoi(String str) {
+        if (str.length() <=0) {
+            return 0;
         }
-
-        String s = String.valueOf(x);
-        int len = flag?s.length():s.length()-1;
-        for (int i =0 ;i < len;i++) {
-            Integer t = x%10;
-            x = x / 10;
-            stack.add(t);
-        }
-        Long temp = 0L;
-        while(!stack.isEmpty()) {
-            temp = temp*10 + stack.poll();
-        }
-        int result = temp > Integer.MAX_VALUE || temp < Integer.MIN_VALUE? 0:temp.intValue();
-        return flag? result:result;
-    }
-
-    public int aroundCenter(String s, int left, int right) {
-        while (left >=0 && right<s.length() && s.charAt(left) == s.charAt(right)) {
-            left--;
-            right++;
-        }
-        return right - left - 1;
-    }
-
-
-
-    public boolean isHuiwen(String s) {
-        int start = 0;
-        int end = s.length()-1;
-
-        while (start <= end) {
-            if (s.charAt(start++) == s.charAt(end--)) {
-                continue;
-            } else {
-                return false;
+        StringBuffer s1 = new StringBuffer();
+        for (int i = 0;i < str.length();i++) {
+            if (str.charAt(i) != '\0') {
+                s1.append(str.charAt(i));
             }
         }
-        return true;
+
+        String temp = s1.toString();
+        StringBuffer stringBuffer = new StringBuffer();
+        int start =0;
+        if (temp.charAt(0) == '-') {
+            stringBuffer.append("-");
+            start = 1;
+        }
+        for (int i = start; i < temp.length();i++) {
+            if (temp.charAt(i) >= 48 && temp.charAt(i) <= 57) {
+                stringBuffer.append(temp.charAt(i));
+            } else {
+                break;
+            }
+        }
+        if (stringBuffer.length() == 0) {
+            return 0;
+        }
+        Long result = Long.valueOf(stringBuffer.toString());
+        if (result > Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        }
+        if (result < Integer.MIN_VALUE) {
+            return Integer.MIN_VALUE;
+        }
+
+        return (int) Integer.valueOf(stringBuffer.toString());
     }
+
 
 
 }
