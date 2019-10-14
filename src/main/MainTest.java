@@ -25,50 +25,22 @@ public class MainTest {
 //        }
         String s = " afa afa aga ";
 //        System.out.println(s.strip());
-        System.out.println(solution.myAtoi("42"));
+        System.out.println(solution.isMatch("aa","a");
     }
 
-    public int myAtoi(String str) {
-        if (str == null || str.length() == 0) return 0;
-        char[] arr = str.toCharArray();
-        long res = 0;
-        int first = 0;
-        //第一个非空白字符
-        for (; first < arr.length; first++) {
-            if(arr[first] ==' ')continue;
-            //如果第一个非空是-或者+,，继续盘判断下一个
-            if (arr[first] == '-' || arr[first] == '+') {
-                //下一个如果是数字，结束循环；
-                if (first + 1 < arr.length && (arr[first + 1] >= '0' && arr[first + 1] <= '9')) {
-                    first++;
-                    break;
-                } else {
-                    //下一个不是数字，返回0
-                    return 0;
-                }
+    public boolean isMatch(String s, String p) {
+        int start1 = 0;
+        int start2 = 0;
+
+        while(start1 <= s.length()-1 && start2 <= p.length()-1) {
+            if (start2+1 <= p.length()-1 && p.charAt(start2+1) == '*' && (p.charAt(start2) == '.' || (s.charAt(start1) == p.charAt(start2)))) {
+                start1++;
+                continue;
+            } else {
+                start2++;
             }
-            if (arr[first] >= '0' && arr[first] <= '9') {
-                break;
-            } else return 0;
         }
-
-        for (int i = first; i < arr.length; i++) {
-            if (arr[i] >= '0' && arr[i] <= '9') {
-                res = res * 10 + arr[i] - '0';
-                if (res > Integer.MAX_VALUE) {
-                    break;
-                }
-            } else break;
-        }
-        if (first != 0 && arr[first - 1] == '-') {
-            if (-res < Integer.MIN_VALUE) return Integer.MIN_VALUE;
-            return (int) -res;
-        }
-
-        if (res > Integer.MAX_VALUE) return Integer.MAX_VALUE;
-        return (int) res;
     }
-
 
 
 }
