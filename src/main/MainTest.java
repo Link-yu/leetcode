@@ -25,46 +25,48 @@ public class MainTest {
 //        }
         String s = " afa afa aga ";
 //        System.out.println(s.strip());
-        System.out.println(solution.myAtoi("-"));
+        System.out.println(solution.myAtoi("42"));
     }
 
     public int myAtoi(String str) {
-        if (str.length() <=0) {
-            return 0;
-        }
-        StringBuffer s1 = new StringBuffer();
-        for (int i = 0;i < str.length();i++) {
-            if (str.charAt(i) != '\0') {
-                s1.append(str.charAt(i));
+        if (str == null || str.length() == 0) return 0;
+        char[] arr = str.toCharArray();
+        long res = 0;
+        int first = 0;
+        //第一个非空白字符
+        for (; first < arr.length; first++) {
+            if(arr[first] ==' ')continue;
+            //如果第一个非空是-或者+,，继续盘判断下一个
+            if (arr[first] == '-' || arr[first] == '+') {
+                //下一个如果是数字，结束循环；
+                if (first + 1 < arr.length && (arr[first + 1] >= '0' && arr[first + 1] <= '9')) {
+                    first++;
+                    break;
+                } else {
+                    //下一个不是数字，返回0
+                    return 0;
+                }
             }
-        }
-
-        String temp = s1.toString();
-        StringBuffer stringBuffer = new StringBuffer();
-        int start =0;
-        if (temp.charAt(0) == '-') {
-            stringBuffer.append("-");
-            start = 1;
-        }
-        for (int i = start; i < temp.length();i++) {
-            if (temp.charAt(i) >= 48 && temp.charAt(i) <= 57) {
-                stringBuffer.append(temp.charAt(i));
-            } else {
+            if (arr[first] >= '0' && arr[first] <= '9') {
                 break;
-            }
-        }
-        if (stringBuffer.length() == 0) {
-            return 0;
-        }
-        Long result = Long.valueOf(stringBuffer.toString());
-        if (result > Integer.MAX_VALUE) {
-            return Integer.MAX_VALUE;
-        }
-        if (result < Integer.MIN_VALUE) {
-            return Integer.MIN_VALUE;
+            } else return 0;
         }
 
-        return (int) Integer.valueOf(stringBuffer.toString());
+        for (int i = first; i < arr.length; i++) {
+            if (arr[i] >= '0' && arr[i] <= '9') {
+                res = res * 10 + arr[i] - '0';
+                if (res > Integer.MAX_VALUE) {
+                    break;
+                }
+            } else break;
+        }
+        if (first != 0 && arr[first - 1] == '-') {
+            if (-res < Integer.MIN_VALUE) return Integer.MIN_VALUE;
+            return (int) -res;
+        }
+
+        if (res > Integer.MAX_VALUE) return Integer.MAX_VALUE;
+        return (int) res;
     }
 
 
