@@ -16,7 +16,7 @@ public class MainTest {
     int[] result = new int[2];
     public static void main(String[] args) {
         MainTest solution = new MainTest();
-        int[] nums1 = {1,2,7};
+        int[] nums1 = {1,8,6,2,5,4,8,3,7};
         int[] nums2 = {3,4};
         char[][] b = new char[2][3];
 //        if (b[0][0] == '\0') {
@@ -25,21 +25,32 @@ public class MainTest {
 //        }
         String s = " afa afa aga ";
 //        System.out.println(s.strip());
-        System.out.println(solution.isMatch("aa","a");
+        System.out.println(solution.romanToInt("MCMXCIV"));
     }
 
-    public boolean isMatch(String s, String p) {
-        int start1 = 0;
-        int start2 = 0;
+    public int romanToInt(String s) {
+        int res = 0;
+        int stage = 0;
+        int[] record = new int[26];
+        record['I' - 'A'] = 1;
+        record['V' - 'A'] = 5;
+        record['X' - 'A'] = 10;
+        record['L' - 'A'] = 50;
+        record['C' - 'A'] = 100;
+        record['D' - 'A'] = 500;
+        record['M' - 'A'] = 1000;
 
-        while(start1 <= s.length()-1 && start2 <= p.length()-1) {
-            if (start2+1 <= p.length()-1 && p.charAt(start2+1) == '*' && (p.charAt(start2) == '.' || (s.charAt(start1) == p.charAt(start2)))) {
-                start1++;
-                continue;
-            } else {
-                start2++;
+
+        for(int i = 0;i < s.length() - 1;i++){
+            if(record[s.charAt(i) - 'A'] >= record[s.charAt(i + 1) - 'A']){
+                res = res + record[s.charAt(i) - 'A'];
+            }else{
+                res = res - record[s.charAt(i) - 'A'];
             }
         }
+
+        res = res + record[s.charAt(s.length() - 1) - 'A'];
+        return res;
     }
 
 
