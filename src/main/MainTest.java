@@ -42,10 +42,7 @@ public class MainTest {
 
     public void twoSum(int[] nums, int out, int target, List<Integer> tmp) {
         Map<Integer, Integer> map = new HashMap<>();
-        for(int i = 0; i < nums.length;i++) {
-            if (i == out) {
-                continue;
-            }
+        for(int i = out; i < nums.length;i++) {
             int temp = target - nums[i];
             if (map.containsKey(temp)) {
                 tmp.add(nums[map.get(temp)]);
