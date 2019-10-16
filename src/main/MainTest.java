@@ -16,43 +16,45 @@ public class MainTest {
     int[] result = new int[2];
     public static void main(String[] args) {
         MainTest solution = new MainTest();
-        int[] nums1 = {1,8,6,2,5,4,8,3,7};
+        int[] nums1 = {-1, 0, 1, 2, -1, -4};
         int[] nums2 = {3,4};
         char[][] b = new char[2][3];
-//        if (b[0][0] == '\0') {
-//            System.out.println(b.length);
-//
-//        }
-        String s = " afa afa aga ";
-//        System.out.println(s.strip());
-        System.out.println(solution.romanToInt("MCMXCIV"));
+        String[] strs = {"flower","flow","flight"};
+        System.out.println(solution.threeSum(nums1));
+        System.out.println(strs[0].indexOf(strs[1]));
     }
 
-    public int romanToInt(String s) {
-        int res = 0;
-        int stage = 0;
-        int[] record = new int[26];
-        record['I' - 'A'] = 1;
-        record['V' - 'A'] = 5;
-        record['X' - 'A'] = 10;
-        record['L' - 'A'] = 50;
-        record['C' - 'A'] = 100;
-        record['D' - 'A'] = 500;
-        record['M' - 'A'] = 1000;
-
-
-        for(int i = 0;i < s.length() - 1;i++){
-            if(record[s.charAt(i) - 'A'] >= record[s.charAt(i + 1) - 'A']){
-                res = res + record[s.charAt(i) - 'A'];
-            }else{
-                res = res - record[s.charAt(i) - 'A'];
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> lists = new ArrayList<>();
+        for (int i = 0; i < nums.length;i++) {
+            List<Integer> list = new ArrayList<>();
+            int target = 0 - nums[i];
+            list.add(nums[i]);
+            twoSum(nums, i, target, list);
+            if (list.size() == 3) {
+                lists.add(list);
             }
         }
 
-        res = res + record[s.charAt(s.length() - 1) - 'A'];
-        return res;
+        return lists;
     }
 
+    public void twoSum(int[] nums, int out, int target, List<Integer> tmp) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < nums.length;i++) {
+            if (i == out) {
+                continue;
+            }
+            int temp = target - nums[i];
+            if (map.containsKey(temp)) {
+                tmp.add(nums[map.get(temp)]);
+                tmp.add(nums[i]);
+            } else {
+                map.put(nums[i],i);
+            }
+        }
+    }
 
 }
 class ListNode {
