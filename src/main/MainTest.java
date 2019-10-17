@@ -16,28 +16,37 @@ public class MainTest {
     int[] result = new int[2];
     public static void main(String[] args) {
         MainTest solution = new MainTest();
-        int[] nums1 = {-1, 0, 1, 2, -1, -4};
+        int[] nums1 = {0,0,0,0};
         int[] nums2 = {3,4};
         char[][] b = new char[2][3];
         String[] strs = {"flower","flow","flight"};
-        System.out.println(solution.letterCombinations("23"));
+        ListNode node = new ListNode(1);
+//        node.next = new ListNode(2);
+//        node.next.next = new ListNode(3);
+//        node.next.next.next = new ListNode(4);
+//        node.next.next.next.next = new ListNode(5);
+        System.out.println(solution.removeNthFromEnd(node, 1));
     }
 
-    public List<String> letterCombinations(String digits) {
-        LinkedList<String> ans = new LinkedList<String>();
-        if(digits.isEmpty()) return ans;
-        String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        ans.add("");
-        for(int i =0; i<digits.length();i++){
-            int x = Character.getNumericValue(digits.charAt(i));
-            while(ans.peek().length()==i){
-                String t = ans.remove();
-                for(char s : mapping[x].toCharArray())
-                    ans.add(t+s);
-            }
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        int length  = 0;
+        ListNode first = head;
+        while (first != null) {
+            length++;
+            first = first.next;
         }
-        return ans;
+        length -= n;
+        first = dummy;
+        while (length > 0) {
+            length--;
+            first = first.next;
+        }
+        first.next = first.next.next;
+        return dummy.next;
     }
+
 }
 class ListNode {
     int val;
