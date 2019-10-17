@@ -20,39 +20,24 @@ public class MainTest {
         int[] nums2 = {3,4};
         char[][] b = new char[2][3];
         String[] strs = {"flower","flow","flight"};
-        System.out.println(solution.threeSum(nums1));
-        System.out.println(strs[0].indexOf(strs[1]));
+        System.out.println(solution.letterCombinations("23"));
     }
 
-    public List<List<Integer>> threeSum(int[] nums) {
-        Arrays.sort(nums);
-        List<List<Integer>> lists = new ArrayList<>();
-        for (int i = 0; i < nums.length;i++) {
-            List<Integer> list = new ArrayList<>();
-            int target = 0 - nums[i];
-            list.add(nums[i]);
-            twoSum(nums, i, target, list);
-            if (list.size() == 3) {
-                lists.add(list);
+    public List<String> letterCombinations(String digits) {
+        LinkedList<String> ans = new LinkedList<String>();
+        if(digits.isEmpty()) return ans;
+        String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        ans.add("");
+        for(int i =0; i<digits.length();i++){
+            int x = Character.getNumericValue(digits.charAt(i));
+            while(ans.peek().length()==i){
+                String t = ans.remove();
+                for(char s : mapping[x].toCharArray())
+                    ans.add(t+s);
             }
         }
-
-        return lists;
+        return ans;
     }
-
-    public void twoSum(int[] nums, int out, int target, List<Integer> tmp) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for(int i = out; i < nums.length;i++) {
-            int temp = target - nums[i];
-            if (map.containsKey(temp)) {
-                tmp.add(nums[map.get(temp)]);
-                tmp.add(nums[i]);
-            } else {
-                map.put(nums[i],i);
-            }
-        }
-    }
-
 }
 class ListNode {
     int val;
