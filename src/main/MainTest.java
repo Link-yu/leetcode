@@ -17,34 +17,48 @@ public class MainTest {
     public static void main(String[] args) {
         MainTest solution = new MainTest();
         int[] nums1 = {0,0,0,0};
-        int[] nums2 = {3,4};
+        int[] nums2 = {1,3,4};
         char[][] b = new char[2][3];
         String[] strs = {"flower","flow","flight"};
-        ListNode node = new ListNode(1);
-//        node.next = new ListNode(2);
-//        node.next.next = new ListNode(3);
-//        node.next.next.next = new ListNode(4);
+        ListNode l1 = new ListNode(1);
+        l1.next = new ListNode(2);
+        l1.next.next = new ListNode(3);
+        l1.next.next.next = new ListNode(4);
+
+        ListNode l2 = new ListNode(1);
+        l2.next = new ListNode(5);
+        l2.next.next = new ListNode(7);
 //        node.next.next.next.next = new ListNode(5);
-        System.out.println(solution.removeNthFromEnd(node, 1));
+        List<String> list = new ArrayList<>();
+//        solution.quan(nums2,0, "", list);
+        solution.generateParenthesis(1);
+        System.out.println(strs[0].substring(0, strs[0].length()-1));
     }
 
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        int length  = 0;
-        ListNode first = head;
-        while (first != null) {
-            length++;
-            first = first.next;
+    public List<String> generateParenthesis(int n) {
+        if(n<=0){
+            return null;
         }
-        length -= n;
-        first = dummy;
-        while (length > 0) {
-            length--;
-            first = first.next;
+        ArrayList<String>	list = new ArrayList<String>();
+        String str = new String();
+        dfs(list,str,n,n);
+        return list;
+    }
+
+    private void dfs(ArrayList<String> list, String str, int left, int right){
+        if(left>right)	{
+            return;//problem with ")("
         }
-        first.next = first.next.next;
-        return dummy.next;
+        if(left==0&&right==0){
+            list.add(str);
+            return;
+        }
+        if(left>0){
+            dfs(list,str+"(",left-1,right);
+        }
+        if(right>0){
+            dfs(list, str+")",left,right-1);
+        }
     }
 
 }
