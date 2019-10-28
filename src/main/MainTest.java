@@ -1,5 +1,9 @@
 package main;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -14,26 +18,21 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MainTest {
     int[] result = new int[2];
-    public static void main(String[] args) {
-        MainTest solution = new MainTest();
-        int[] nums1 = {0,0,0,0};
-        int[] nums2 = {1,3,4};
-        char[][] b = new char[2][3];
-        String[] strs = {"flower","flow","flight"};
-        ListNode l1 = new ListNode(1);
-        l1.next = new ListNode(2);
-        l1.next.next = new ListNode(3);
-        l1.next.next.next = new ListNode(4);
-
-        ListNode l2 = new ListNode(1);
-        l2.next = new ListNode(5);
-        l2.next.next = new ListNode(7);
-//        node.next.next.next.next = new ListNode(5);
-        List<String> list = new ArrayList<>();
-//        solution.quan(nums2,0, "", list);
-        ListNode[] lists = {l1, l2};
-        System.out.println(solution.mergeKLists(lists));
-        System.out.println(strs[0].substring(0, strs[0].length()-1));
+    public static void main(String[] args) throws SocketException {
+        Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+        while(networkInterfaces.hasMoreElements()) {
+            NetworkInterface networkInterface = (NetworkInterface) networkInterfaces.nextElement();
+            Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
+            while (addresses.hasMoreElements()){
+                InetAddress ip = (InetAddress) addresses.nextElement();
+                if (ip != null
+                        && ip instanceof Inet4Address
+                        && !ip.isLoopbackAddress() //loopback地址即本机地址，IPv4的loopback范围是127.0.0.0 ~ 127.255.255.255
+                        && ip.getHostAddress().indexOf(":")==-1){
+                    System.out.println(ip.getHostAddress());
+                }
+            }
+        }
     }
 
     public ListNode mergeKLists(ListNode[] lists) {
