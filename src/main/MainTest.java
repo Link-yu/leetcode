@@ -17,33 +17,54 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author 维斯
  */
 public class MainTest {
-    int[] result = new int[2];
-    public static void main(String[] args) throws SocketException {
+    public static void main(String[] args) {
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
-        l.next.next = new ListNode(3);
-        l.next.next.next = new ListNode(4);
-        l.next.next.next.next = new ListNode(5);
+//        l.next.next = new ListNode(3);
+//        l.next.next.next = new ListNode(4);
+//        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
         System.out.println(m.reverseKGroup(l,2));
     }
 
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode result = new ListNode(0);
-        result.next = head;
-
-        if (head == null || head.next == null) {
-            return head;
-        }
-        ListNode temp = result;
-        while (temp != null) {
-            for (int i = 0; i < k; i++) {
-                if (temp == null) {
-                    break;
-                }
-                temp = temp.next;
+        ListNode fakeHead = new ListNode(0);
+        fakeHead.next = head;
+        ListNode pre = fakeHead;
+        ListNode first = fakeHead.next;
+        ListNode ptr = first;
+        while(ptr != null && ptr.next != null) {
+            int count = k;
+            while (count>1) {
+                if(ptr==null) break;
+                ptr = ptr.next;
+                count--;
             }
+            if (ptr == null) {
+                return pre.next;
+            }
+            ListNode next = ptr.next;
+
+            fakeHead.next = rollBack(first, ptr);
+            first.next = next;
+            fakeHead = first;
+            first = fakeHead.next;
+            ptr = first;
         }
+        return pre.next;
+    }
+
+    public ListNode rollBack(ListNode head, ListNode tail) {
+        ListNode ptr=head;
+        ListNode temp=ptr.next;
+        while(ptr!=tail)//倒置节点，如果ptr到了最后一个节点，那就不必要了
+        {
+            ListNode tnext=temp.next;
+            temp.next=ptr;
+            ptr=temp;
+            temp=tnext;
+        }
+        return ptr;
     }
 
 
