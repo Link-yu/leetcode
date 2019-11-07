@@ -25,36 +25,34 @@ public class MainTest {
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.strStr("","a"));
+        System.out.println(m.divide(10,3));
     }
-    public int strStr(String haystack, String needle) {
-        if (needle.equals("")) {
-            return 0;
+    public int divide(int dividend, int divisor) {
+        boolean flag = true;
+        //处理返回结果为正负
+        if ((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0)) {
+            flag = false;
+        }
+        dividend = Math.abs(dividend);
+        divisor = Math.abs(divisor);
+        try {
+            int result = dividend;
+            int count = 0;
+            while (result > divisor) {
+                count++;
+                result = result - divisor;
+            }
+
+            if (flag) {
+                return count;
+            } else {
+                return Integer.valueOf("-" + count);
+            }
+        } catch (Exception e) {
+            return Integer.MIN_VALUE;
         }
 
-        if (needle.length() > haystack.length()) {
-            return -1;
-        }
-        for (int i =0 ;i < haystack.length();i++) {
-            int start = 0;
-            if (haystack.charAt(i) != needle.charAt(start)) {
-                continue;
-            } else {
-                int first = i;
-                while (start<needle.length() && first<haystack.length()) {
-                    if (haystack.charAt(first) == needle.charAt(start)) {
-                        first++;
-                        start++;
-                    } else {
-                        break;
-                    }
-                }
-                if (start == needle.length()) {
-                    return i;
-                }
-            }
-        }
-        return -1;
+
     }
 
 }
