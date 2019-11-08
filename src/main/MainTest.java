@@ -1,5 +1,8 @@
 package main;
 
+
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -25,34 +28,37 @@ public class MainTest {
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.divide(10,3));
+        String test = " ";
+        if (StringUtils)
+        System.out.println(m.divide(-2147483648,-1));
     }
     public int divide(int dividend, int divisor) {
-        boolean flag = true;
-        //处理返回结果为正负
-        if ((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0)) {
-            flag = false;
-        }
-        dividend = Math.abs(dividend);
-        divisor = Math.abs(divisor);
-        try {
-            int result = dividend;
-            int count = 0;
-            while (result > divisor) {
-                count++;
-                result = result - divisor;
+        if (divisor == 0) return Integer.MAX_VALUE;
+        if (divisor == -1 && dividend == Integer.MIN_VALUE)
+            return Integer.MAX_VALUE;
+
+        //get positive values
+        long pDividend = Math.abs((long) dividend);
+        long pDivisor = Math.abs((long) divisor);
+
+        int result = 0;
+        while (pDividend >= pDivisor) {
+            //calculate number of left shifts
+            int numShift = 0;
+            while (pDividend >= (pDivisor << numShift)) {
+                numShift++;
             }
 
-            if (flag) {
-                return count;
-            } else {
-                return Integer.valueOf("-" + count);
-            }
-        } catch (Exception e) {
-            return Integer.MIN_VALUE;
+            //dividend minus the largest shifted divisor
+            result += 1 << (numShift - 1);
+            pDividend -= (pDivisor << (numShift - 1));
         }
 
-
+        if ((dividend > 0 && divisor > 0) || (dividend < 0 && divisor < 0)) {
+            return result;
+        } else {
+            return -result;
+        }
     }
 
 }
