@@ -21,51 +21,18 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MainTest {
     public static void main(String[] args) {
-        String[] words = {"word","good","best","good"};
+        int[] words = {1,2,3};
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
 //        l.next.next = new ListNode(3);
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.findSubstring("wordgoodgoodgoodbestword",words));
+        m.nextPermutation(words);
+        System.out.println();
     }
-    public List<Integer> findSubstring(String s, String[] words) {
-        Map<String, Integer> map = new HashMap<>();
-        if (words == null || words.length < 1) {
-            return new ArrayList<>();
-        }
-        List<Integer> list = new ArrayList<>();
-        int len = words[0].length();
-        int totalLen = words.length*len;
-        for (int i = 0; i + totalLen <= s.length();i++) {
-            for (int k = 0; k < words.length; k++) {
-                if (map.containsKey(words[k])) {
-                    map.put(words[k], map.get(words[k])+1);
-                } else {
-                    map.put(words[k], 1);
-                }
-            }
-            boolean flag = true;
-            for (int j = i; j < i+totalLen;j = j+len) {
-                if (map.containsKey(s.substring(j,j+len)) && map.get(s.substring(j,j+len)) >=1) {
-                    map.put(s.substring(j,j+len), map.get(s.substring(j,j+len))-1);
-                } else {
-                    break;
-                }
-            }
-            for (Integer value:map.values()) {
-                if (value != 0) {
-                    flag = false;
-                }
-            }
-            if (flag) {
-                list.add(i);
-            }
-            map.clear();
-        }
+    public void nextPermutation(int[] nums) {
 
-        return list;
     }
 
 }
