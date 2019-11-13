@@ -21,44 +21,51 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MainTest {
     public static void main(String[] args) {
-        int[] nums = {2,2,34,33};
+        String[] words = {"word","good","best","good"};
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
 //        l.next.next = new ListNode(3);
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        String test = " ";
-        if (StringUtils)
-        System.out.println(m.divide(-2147483648,-1));
+        System.out.println(m.findSubstring("wordgoodgoodgoodbestword",words));
     }
-    public int divide(int dividend, int divisor) {
-        if (divisor == 0) return Integer.MAX_VALUE;
-        if (divisor == -1 && dividend == Integer.MIN_VALUE)
-            return Integer.MAX_VALUE;
-
-        //get positive values
-        long pDividend = Math.abs((long) dividend);
-        long pDivisor = Math.abs((long) divisor);
-
-        int result = 0;
-        while (pDividend >= pDivisor) {
-            //calculate number of left shifts
-            int numShift = 0;
-            while (pDividend >= (pDivisor << numShift)) {
-                numShift++;
+    public List<Integer> findSubstring(String s, String[] words) {
+        Map<String, Integer> map = new HashMap<>();
+        if (words == null || words.length < 1) {
+            return new ArrayList<>();
+        }
+        List<Integer> list = new ArrayList<>();
+        int len = words[0].length();
+        int totalLen = words.length*len;
+        for (int i = 0; i + totalLen <= s.length();i++) {
+            for (int k = 0; k < words.length; k++) {
+                if (map.containsKey(words[k])) {
+                    map.put(words[k], map.get(words[k])+1);
+                } else {
+                    map.put(words[k], 1);
+                }
             }
-
-            //dividend minus the largest shifted divisor
-            result += 1 << (numShift - 1);
-            pDividend -= (pDivisor << (numShift - 1));
+            boolean flag = true;
+            for (int j = i; j < i+totalLen;j = j+len) {
+                if (map.containsKey(s.substring(j,j+len)) && map.get(s.substring(j,j+len)) >=1) {
+                    map.put(s.substring(j,j+len), map.get(s.substring(j,j+len))-1);
+                } else {
+                    break;
+                }
+            }
+            for (Integer value:map.values()) {
+                if (value != 0) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                list.add(i);
+            }
+            map.clear();
         }
 
-        if ((dividend > 0 && divisor > 0) || (dividend < 0 && divisor < 0)) {
-            return result;
-        } else {
-            return -result;
-        }
+        return list;
     }
 
 }
