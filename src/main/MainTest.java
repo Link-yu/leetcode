@@ -21,19 +21,34 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MainTest {
     public static void main(String[] args) {
-        int[] words = {1,2,3};
+        int[] words = {4,2,0,2,3,2,0};
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
 //        l.next.next = new ListNode(3);
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        m.nextPermutation(words);
-        System.out.println();
+        System.out.println(m.longestValidParentheses("(()"));
     }
-    public void nextPermutation(int[] nums) {
+    public int longestValidParentheses(String s) {
+        int maxans = 0;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(-1);
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+            } else {
+                stack.pop();
+                if (stack.empty()) {
+                    stack.push(i);
+                } else {
+                    maxans = Math.max(maxans, i - stack.peek());
+                }
+            }
+        }
+        return maxans;
+    }
 
-    }
 
 }
 class ListNode {
