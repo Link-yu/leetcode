@@ -28,25 +28,34 @@ public class MainTest {
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.longestValidParentheses("(()"));
+        System.out.println(m.search(words,3));
     }
-    public int longestValidParentheses(String s) {
-        int maxans = 0;
-        Stack<Integer> stack = new Stack<>();
-        stack.push(-1);
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(') {
-                stack.push(i);
-            } else {
-                stack.pop();
-                if (stack.empty()) {
-                    stack.push(i);
+    public int search(int[] nums, int target) {
+        if (nums.length == 0) {
+            return -1;
+        }
+        int left = nums.length-1;
+        int right = 0;
+
+        while(left<right) {
+            //左边有序
+            int mid = (left + right)/2;
+            if (nums[mid]== target) {
+                return mid;
+            }
+            if (nums[left] <= nums[mid]) {
+
+            } else if (nums[mid] <= nums[right]) {
+                //右边有序
+                if (target > nums[right] || target < nums[left] ) {
+                    right = mid;
                 } else {
-                    maxans = Math.max(maxans, i - stack.peek());
+                    left= mid;
                 }
             }
         }
-        return maxans;
+
+        return -1;
     }
 
 
