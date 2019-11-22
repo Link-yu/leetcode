@@ -21,44 +21,40 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MainTest {
     public static void main(String[] args) {
-        int[] words = {4,5,6,7,0,2,3};
+        int[] words = {5,7,7,8,8,10};
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
 //        l.next.next = new ListNode(3);
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.search(words,4));
+        System.out.println(m.searchRange(words,6));
     }
-    public int search(int[] nums, int target) {
-        if (nums.length == 0) {
-            return -1;
-        }
+    public int[] searchRange(int[] nums, int target) {
+        int[] result = {-1,-1};
         int left = 0;
         int right = nums.length-1;
-        while(left<=right) {
-            //左边有序
+        while (left <= right) {
             int mid = (left + right)/2;
-            if (nums[mid]== target) {
-                return mid;
-            }
-            if (nums[left] <= nums[mid]) {
-                //左边有序
-                if(nums[left] > target || nums[mid] < target) {
-                    left = mid+1;
-                } else {
-                    right = mid;
+            if (nums[mid] == target) {
+                int pre = mid;
+                int tail = mid;
+                while(pre>=0 && nums[pre] == target) {
+                    pre--;
                 }
-            } else if (nums[mid] <= nums[right]) {
-                //右边有序
-                if (target > nums[right] || target < nums[mid] ) {
-                    right = mid-1;
-                } else {
-                    left= mid;
+                while(tail<=nums.length-1 && nums[tail] == target) {
+                    tail++;
                 }
+                result[0] = pre+1;
+                result[1] = tail-1;
+                return result;
+            } else if (nums[mid] > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
-        return -1;
+        return result;
     }
 
 
