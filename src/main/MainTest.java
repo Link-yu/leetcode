@@ -1,7 +1,6 @@
 package main;
 
 
-import com.sun.xml.internal.ws.util.StringUtils;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -21,43 +20,49 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MainTest {
     public static void main(String[] args) {
-        int[] words = {4,2,0,2,3,2,0};
+        int[] words = {1,3,5,6};
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
 //        l.next.next = new ListNode(3);
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.search(words,3));
+        System.out.println(m.searchInsert(words,8));
     }
-    public int search(int[] nums, int target) {
-        if (nums.length == 0) {
-            return -1;
+    public int searchInsert(int[] nums, int target) {
+        if(nums.length == 0) {
+            return 0;
         }
-        int left = nums.length-1;
-        int right = 0;
 
-        while(left<right) {
-            //左边有序
-            int mid = (left + right)/2;
-            if (nums[mid]== target) {
+        if (target > nums[nums.length-1]) {
+            return nums.length;
+        }
+
+        if (target < nums[0]) {
+            return 0;
+        }
+        int left = 0;
+        int right = nums.length-1;
+        int mid = 0;
+        while(left <= right) {
+            mid = (left + right)/2;
+            if (nums[mid] == target){
                 return mid;
-            }
-            if (nums[left] <= nums[mid]) {
-
-            } else if (nums[mid] <= nums[right]) {
-                //右边有序
-                if (target > nums[right] || target < nums[left] ) {
-                    right = mid;
-                } else {
-                    left= mid;
-                }
+            } else if (nums[mid] > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
 
-        return -1;
-    }
+        if (nums[mid] < target) {
+            return mid+1;
+        } else {
+            return mid;
+        }
 
+
+    }
 
 }
 class ListNode {
