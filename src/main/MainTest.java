@@ -19,49 +19,41 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author 维斯
  */
 public class MainTest {
+    List<List<Integer>> listList = new ArrayList<>();
     public static void main(String[] args) {
-        int[] words = {1,3,5,6};
+        int[] words = {2,3,6,7};
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
 //        l.next.next = new ListNode(3);
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.searchInsert(words,8));
+        System.out.println(m.combinationSum(words,7));
     }
-    public int searchInsert(int[] nums, int target) {
-        if(nums.length == 0) {
-            return 0;
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<Integer> list = new ArrayList<>();
+        helper(candidates,target, 0, list);
+        return listList;
+    }
+
+    public void helper(int[] candidates, int target, int start, List<Integer> list) {
+        if (target == 0 || start < candidates.length) {
+            listList.add(list);
         }
 
-        if (target > nums[nums.length-1]) {
-            return nums.length;
-        }
-
-        if (target < nums[0]) {
-            return 0;
-        }
-        int left = 0;
-        int right = nums.length-1;
-        int mid = 0;
-        while(left <= right) {
-            mid = (left + right)/2;
-            if (nums[mid] == target){
-                return mid;
-            } else if (nums[mid] > target) {
-                right = mid - 1;
+        int tmp = target/candidates[start];
+        while (tmp >= 0) {
+            List<Integer> lists = new ArrayList<>();
+            if (target - tmp*candidates[start] < candidates[start]) {
+                continue;
             } else {
-                left = mid + 1;
+                int num = tmp;
+                while(num>=0) {
+                    lists.add(candidates[start]);
+                }
+                helper(candidates, target - tmp*candidates[start], start+1, lists);
             }
         }
-
-        if (nums[mid] < target) {
-            return mid+1;
-        } else {
-            return mid;
-        }
-
-
     }
 
 }
