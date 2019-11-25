@@ -1,7 +1,6 @@
 package main;
 
 
-import com.sun.xml.internal.ws.util.StringUtils;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -21,42 +20,49 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MainTest {
     public static void main(String[] args) {
-        int[] words = {5,7,7,8,8,10};
+        int[] words = {1,3,5,6};
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
 //        l.next.next = new ListNode(3);
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.searchRange(words,6));
+        System.out.println(m.searchInsert(words,8));
     }
-    public int[] searchRange(int[] nums, int target) {
-        int[] result = {-1,-1};
+    public int searchInsert(int[] nums, int target) {
+        if(nums.length == 0) {
+            return 0;
+        }
+
+        if (target > nums[nums.length-1]) {
+            return nums.length;
+        }
+
+        if (target < nums[0]) {
+            return 0;
+        }
         int left = 0;
         int right = nums.length-1;
-        while (left <= right) {
-            int mid = (left + right)/2;
-            if (nums[mid] == target) {
-                int pre = mid;
-                int tail = mid;
-                while(pre>=0 && nums[pre] == target) {
-                    pre--;
-                }
-                while(tail<=nums.length-1 && nums[tail] == target) {
-                    tail++;
-                }
-                result[0] = pre+1;
-                result[1] = tail-1;
-                return result;
+        int mid = 0;
+        while(left <= right) {
+            mid = (left + right)/2;
+            if (nums[mid] == target){
+                return mid;
             } else if (nums[mid] > target) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
-        return result;
-    }
 
+        if (nums[mid] < target) {
+            return mid+1;
+        } else {
+            return mid;
+        }
+
+
+    }
 
 }
 class ListNode {
