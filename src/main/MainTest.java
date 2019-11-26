@@ -21,37 +21,37 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class MainTest {
     List<List<Integer>> listList = new ArrayList<>();
     public static void main(String[] args) {
-        int[] words = {2,3,6,7};
+        int[] words = {10,1,2,7,6,1,5};
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
 //        l.next.next = new ListNode(3);
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.combinationSum(words,7));
+        System.out.println(m.combinationSum2(words,8));
     }
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
         List<Integer> list = new ArrayList<>();
         helper(candidates,target, 0, list);
         return listList;
     }
 
     public void helper(int[] candidates, int target, int start, List<Integer> list) {
-        if (target == 0 || start < candidates.length) {
-            listList.add(list);
+        if (target == 0) {
+            listList.add(new ArrayList<>(list));
+            return;
         }
-
-        int tmp = target/candidates[start];
-        while (tmp >= 0) {
-            List<Integer> lists = new ArrayList<>();
-            if (target - tmp*candidates[start] < candidates[start]) {
-                continue;
-            } else {
-                int num = tmp;
-                while(num>=0) {
-                    lists.add(candidates[start]);
-                }
-                helper(candidates, target - tmp*candidates[start], start+1, lists);
+        for(int i = start; i <  candidates.length;i++) {
+            if (target < candidates[i]) {
+                break;
+            }
+            List<Integer> lists = new ArrayList<>(list);
+            list.add(candidates[i]);
+            helper(candidates, target - candidates[i], i+1, list);
+            list = lists;
+            while(i+1 < candidates.length && candidates[i+1] == candidates[i]) {
+                i++;
             }
         }
     }
