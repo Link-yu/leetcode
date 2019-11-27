@@ -21,35 +21,44 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class MainTest {
     List<List<Integer>> listList = new ArrayList<>();
     public static void main(String[] args) {
-        int[] words = {3,4,-1,1};
+        int[] words = {0,1,0,2,1,0,1,3,2,1,2,1};
         ListNode l = new ListNode(1);
         l.next = new ListNode(2);
 //        l.next.next = new ListNode(3);
 //        l.next.next.next = new ListNode(4);
 //        l.next.next.next.next = new ListNode(5);
         MainTest m = new MainTest();
-        System.out.println(m.firstMissingPositive(words));
+        System.out.println(m.trap(words));
     }
 
-    public int firstMissingPositive(int[] nums) {
-        for(int i=0;i<nums.length;){
-            if(nums[i]>0&&nums[i]<=nums.length&&nums[i]!=nums[nums[i]-1]){
-                //确定nums[i]的值对应的下标不越界，同时排除num[i]本身位置正确或者nums[i]应该放入的位置nums[i]-1原本就是nums[i](如[1,1])
+    public int trap(int[] height) {
+        int leftMax = 0;
+        int rightMax = 0;
+        int result = 0;
+        for (int i = 1; i < height.length-1;i++) {
+            int k = i-1;
+            int t = i+1;
+            while (k >=0) {
+                if (height[k] > leftMax) {
+                    leftMax = height[k];
+                }
+                k--;
+            }
 
-                int index = nums[i];//
-                nums[i] = nums[index -1];
-                nums[index -1]=index;
-                //换位置之后需要继续判断换过来的值是否在对的位置上，因此不能i++;
-            }else{
-                i++;
+            while (t < height.length) {
+                if (height[t] > rightMax) {
+                    rightMax = height[t];
+                }
+                t++;
             }
-        }
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]!=i+1){
-                return i+1;
+
+            if (leftMax > height[i] && rightMax > height[i]) {
+                result = result + Math.min(leftMax,rightMax)-height[i];
             }
+            leftMax = 0;
+            rightMax = 0;
         }
-        return nums.length+1;
+        return result;
     }
 
 }
