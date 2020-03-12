@@ -6,8 +6,11 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created on 2017/7/17.
@@ -20,15 +23,33 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MainTest {
     List<List<Integer>> listList = new ArrayList<>();
+    public static final String REGX="(\\d+(\\.\\d+)?)";
+
+    public static final Pattern PATTERN= Pattern.compile(REGX);
     public static void main(String[] args) {
-        int[] words = {0,1,0,2,1,0,1,3,2,1,2,1};
-        ListNode l = new ListNode(1);
-        l.next = new ListNode(2);
-//        l.next.next = new ListNode(3);
-//        l.next.next.next = new ListNode(4);
-//        l.next.next.next.next = new ListNode(5);
-        MainTest m = new MainTest();
-        System.out.println(m.isMatch("aaaa","***a"));
+//        int[] words = {0,1,0,2,1,0,1,3,2,1,2,1};
+//        ListNode l = new ListNode(1);
+//        l.next = new ListNode(2);
+////        l.next.next = new ListNode(3);
+////        l.next.next.next = new ListNode(4);
+////        l.next.next.next.next = new ListNode(5);
+//        MainTest m = new MainTest();
+//        System.out.println(m.isMatch("aaaa","***a"));
+//        try{
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            Date startDate = simpleDateFormat.parse("2019-10-22 00:00:00");
+//            Date endDate = simpleDateFormat.parse("2020-12-20 24:00:00");
+//            System.out.println(startDate.getTime()  + "  " + endDate.getTime());
+//        }catch (Exception e) {
+//
+//        }
+
+        Optional<Member> optionalMember = Optional.ofNullable(new Member());
+        Optional<String> optional = Optional.of("af");
+        System.out.println(optional.get());
+        optionalMember.ifPresent(mem -> {
+            System.out.println("adsfa" + mem.getName());
+        });
     }
 
     public boolean isMatch(String s, String p) {
@@ -76,4 +97,27 @@ class ListNode {
     int val;
     ListNode next;
     ListNode(int x) { val = x;}
+}
+class Member {
+    String name;
+    String age;
+    public Member() {
+        System.out.println("构造函数初始化!");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
 }
