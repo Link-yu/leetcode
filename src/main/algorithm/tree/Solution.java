@@ -1,6 +1,5 @@
 package main.algorithm.tree;
 
-import sun.reflect.generics.tree.Tree;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -29,7 +28,7 @@ public class Solution {
 //    list.forEach(num -> {
 //        System.out.println(num);
 //    });
-        System.out.println(maxDepth(root));
+        System.out.println(intMaxDepth(null));
     }
 
     //中序遍历
@@ -63,9 +62,35 @@ public class Solution {
     }
 
 
-    //二叉树的最大深度，非递归;
+    //二叉树的最大深度，非递归;层次遍历，使用队列存储，记住每一层个数，个数遍历完说明增加一层
     public static int intMaxDepth(TreeNode root) {
+        if(root == null)
+            return 0;
+        int result = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        TreeNode cur = null;
+        int temp = 0;
+        while (!queue.isEmpty()) {
+            int last = queue.size();
+            temp = 0;
+            while(temp < last) {
+                cur = queue.poll();
+                temp++;
+                if (cur != null && cur.left != null) {
+                    queue.add(cur.left);
+                }
 
+                if (cur != null && cur.right != null) {
+                    queue.add(cur.right);
+                }
+            }
+
+            result++;
+
+        }
+
+        return  result;
     }
 
 
@@ -112,7 +137,7 @@ public class Solution {
     }
 
 
-    //层次遍历
+    //层次遍历，要用队列
     public static List<Integer> levelOrderTraverse(TreeNode root) {
         Stack<TreeNode> stack = new Stack<>();
         List<Integer> res = new ArrayList<>();
